@@ -11,7 +11,7 @@ A simplified **File Metadata Service** that tracks file metadata for uploads to 
 - **Jest** + **supertest** for tests
 - **Docker Compose** for local dev
 
-The metadata table is named **`filemeta`** exactly
+The metadata table is named **`filemeta`**
 
 ---
 
@@ -79,7 +79,7 @@ This mirrors a typical production flow where storage happens out-of-band (e.g., 
   ```
   Pass `next_cursor` back to fetch the next page.
 
-### Update tags (JSON **Merge** Patch, RFC 7396)
+### Update tags (JSON **Merge** Patch)
 **`PATCH /files/{id}`**  
 - **Content-Type must be** `application/merge-patch+json`.
 - Only the `tags` field is patchable. Other fields are immutable in this exercise.
@@ -88,7 +88,7 @@ This mirrors a typical production flow where storage happens out-of-band (e.g., 
     ```json
     { "tags": ["archived", "pet"] }
     ```
-  - Clear tags (RFC 7396 `null` → we interpret as empty list):
+  - Clear tags (`null` → we interpret as empty list):
     ```json
     { "tags": null }
     ```
