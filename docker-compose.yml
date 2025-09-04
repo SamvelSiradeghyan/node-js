@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: filemeta
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - filemeta_pg:/var/lib/postgresql/data
+  app:
+    build: .
+    environment:
+      PORT: 3000
+      DATABASE_URL: postgres://postgres:postgres@db:5432/filemeta
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+volumes:
+  filemeta_pg:

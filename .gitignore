@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+.jest*
+/test-results/
+.nyc_output/
+.eslintcache
+.env
+.env.local
+.DS_Store
+*.log

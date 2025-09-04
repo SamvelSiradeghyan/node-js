@@ -1,0 +1,44 @@
+
+### Create a file (server computes checksum from content_base64)
+POST http://localhost:3000/files
+Content-Type: application/json
+
+{
+  "user_id": "user_123",
+  "filename": "cat.jpg",
+  "size_bytes": 12345,
+  "content_type": "image/jpeg",
+  "tags": ["pets", "images"],
+  "content_base64": "aGVsbG8gd29ybGQ="
+}
+
+### Create with provided checksum (idempotent if same user_id+checksum+filename)
+POST http://localhost:3000/files
+Content-Type: application/json
+
+{
+  "user_id": "user_123",
+  "filename": "cat.jpg",
+  "size_bytes": 12345,
+  "content_type": "image/jpeg",
+  "tags": ["pets", "images"],
+  "checksum_sha256": "5eb63bbbe01eeed093cb22bb8f5acdc3"
+}
+
+### Get by id
+GET http://localhost:3000/files/{{file_id}}
+
+### Query with filters + cursor pagination
+GET http://localhost:3000/files?user_id=user_123&tag=images&limit=2
+
+### Patch tags using JSON Merge Patch
+PATCH http://localhost:3000/files/{{file_id}}
+Content-Type: application/merge-patch+json
+
+{ "tags": ["archived", "pet"] }
+
+### Clear tags (null means clear to [] per our RFC7396 decision)
+PATCH http://localhost:3000/files/{{file_id}}
+Content-Type: application/merge-patch+json
+
+{ "tags": null }
